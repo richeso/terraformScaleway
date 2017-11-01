@@ -1,0 +1,1 @@
+c:\pg\Git\bin\sh.exe --login -i -c "/c/Users/docker/terraformScaleway/scripts/fetch-tokens.sh"
