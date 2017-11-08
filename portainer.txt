@@ -1,3 +1,5 @@
+as a service
+-------------
 docker service create \
     --name portainer \
     --publish 9000:9000 \
@@ -5,3 +7,18 @@ docker service create \
     --mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
     portainer/portainer \
     -H unix:///var/run/docker.sock
+
+Store data folder in /usr/portainer/data for restarts
+-----------------------------------------------------
+docker service create \
+    --name portainer \
+    --publish 9000:9000 \
+    --replicas=1 \
+    --constraint 'node.role == manager' \
+    --mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
+    --mount type=bind,src=/usr/portainer/data,dst=/data \
+    portainer/portainer -H unix:///var/run/docker.sock
+
+separate container
+------------------
+sudo docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock  -v /usr/portainer/data:/data portainer/portainer

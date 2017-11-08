@@ -39,7 +39,9 @@ resource "scaleway_server" "swarm_manager" {
       "/tmp/install-docker-ce.sh ${var.docker_version}",
       "docker swarm init --advertise-addr ${self.private_ip}",
       "docker swarm join-token --quiet worker > /tmp/workertoken",
-      "docker swarm join-token --quiet manager > /tmp/managertoken"
+      "docker swarm join-token --quiet manager > /tmp/managertoken",
+      "mkdir -p /tmp/portainer/data",
+      "docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock  -v /tmp/portainer/data:/data portainer/portainer"
     ]
   }
 }
